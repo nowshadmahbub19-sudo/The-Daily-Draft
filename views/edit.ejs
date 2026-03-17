@@ -1,0 +1,128 @@
+<%
+  const formatDate = (value) => {
+    if (!value) return "Current edition";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post | The Daily Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="newspaper-home newspaper-editor newspaper-editor--edit">
+    <header class="news-utility">
+      <div class="container news-utility__inner">
+        <span class="news-utility__label">Editing Desk</span>
+        <span class="news-utility__date">Refine a published story</span>
+      </div>
+    </header>
+
+    <div class="container">
+      <header class="news-masthead news-reveal">
+        <div class="news-masthead__row">
+          <a href="/" class="news-brand" aria-label="The Daily Draft home">
+            <span class="news-brand__name">The Daily Draft</span>
+            <span class="news-brand__deck">Edit a published article without leaving the current editorial system.</span>
+          </a>
+
+          <nav class="news-nav" aria-label="Primary">
+            <a href="/" class="news-nav__link">Home</a>
+            <a href="/#latest-stories" class="news-nav__link">Latest</a>
+            <a href="/#editorial-desks" class="news-nav__link">Categories</a>
+            <a href="/#about-publication" class="news-nav__link">About</a>
+            <a href="/posts/new" class="btn btn--primary">New Post</a>
+          </nav>
+        </div>
+
+        <div class="news-rule"></div>
+      </header>
+
+      <main class="editor-main">
+        <section class="editor-intro news-reveal" style="--news-delay: 90ms;">
+          <div>
+            <span class="news-kicker">Edit Post</span>
+            <h1 class="news-section__title">Refine the story without losing the publication tone.</h1>
+            <p class="editor-intro__text">
+              This editing view keeps the same newspaper-inspired visual system as the homepage so
+              the write flow feels like part of one product, not an older version.
+            </p>
+          </div>
+
+          <aside class="editor-brief">
+            <span class="news-chip">Current article</span>
+            <ul class="editor-brief__list">
+              <li>Post ID: <strong>#<%= post.id %></strong></li>
+              <li>Category: <strong><%= post.category || "General" %></strong></li>
+              <li>Published: <strong><%= formatDate(post.created_at) %></strong></li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="editor-sheet news-reveal" style="--news-delay: 140ms;">
+          <div class="editor-sheet__header">
+            <div>
+              <span class="news-kicker">Editing Mode</span>
+              <h2 class="editor-sheet__title">Update the published article with a cleaner finish.</h2>
+            </div>
+            <span class="editor-mode-chip editor-mode-chip--edit">Editing Mode</span>
+          </div>
+
+          <form action="/posts/<%= post.id %>/edit" method="POST" class="editor-form">
+            <div class="editor-grid">
+              <label class="editor-field editor-field--full">
+                <span class="editor-field__label">Headline</span>
+                <span class="editor-field__note">Tighten the framing without losing the original voice.</span>
+                <input type="text" name="title" value="<%= post.title %>" autocomplete="off" required />
+              </label>
+
+              <label class="editor-field">
+                <span class="editor-field__label">Author</span>
+                <span class="editor-field__note">Keep attribution clear and consistent.</span>
+                <input type="text" name="author" value="<%= post.author %>" autocomplete="name" required />
+              </label>
+
+              <label class="editor-field">
+                <span class="editor-field__label">Category</span>
+                <span class="editor-field__note">Use the desk that best fits the finished article.</span>
+                <input type="text" name="category" value="<%= post.category %>" autocomplete="off" required />
+              </label>
+
+              <label class="editor-field editor-field--full">
+                <span class="editor-field__label">Story</span>
+                <span class="editor-field__note">Refine clarity, rhythm, and structure before saving changes.</span>
+                <textarea name="content" rows="14" required><%= post.content %></textarea>
+              </label>
+            </div>
+
+            <div class="editor-form__footer">
+              <p>
+                Saving changes updates the current edition immediately while preserving your
+                existing backend routes and SQLite persistence.
+              </p>
+
+              <div class="editor-form__actions">
+                <a href="/" class="btn btn--ghost">Cancel</a>
+                <button type="submit" class="btn btn--primary">Save Changes</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

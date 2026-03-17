@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Post | The Daily Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="newspaper-home newspaper-editor newspaper-editor--new">
+    <header class="news-utility">
+      <div class="container news-utility__inner">
+        <span class="news-utility__label">Writing Desk</span>
+        <span class="news-utility__date">Prepare the next edition</span>
+      </div>
+    </header>
+
+    <div class="container">
+      <header class="news-masthead news-reveal">
+        <div class="news-masthead__row">
+          <a href="/" class="news-brand" aria-label="The Daily Draft home">
+            <span class="news-brand__name">The Daily Draft</span>
+            <span class="news-brand__deck">Write a new essay, story, or commentary piece for the publication.</span>
+          </a>
+
+          <nav class="news-nav" aria-label="Primary">
+            <a href="/" class="news-nav__link">Home</a>
+            <a href="/#latest-stories" class="news-nav__link">Latest</a>
+            <a href="/#editorial-desks" class="news-nav__link">Categories</a>
+            <a href="/#about-publication" class="news-nav__link">About</a>
+            <a href="/posts/new" class="btn btn--primary">New Post</a>
+          </nav>
+        </div>
+
+        <div class="news-rule"></div>
+      </header>
+
+      <main class="editor-main">
+        <section class="editor-intro news-reveal" style="--news-delay: 90ms;">
+          <div>
+            <span class="news-kicker">Write a Post</span>
+            <h1 class="news-section__title">Write the next piece for the edition.</h1>
+            <p class="editor-intro__text">
+              Draft a new article in the same editorial system readers experience on the
+              homepage, with clear structure, strong hierarchy, and no wasted motion.
+            </p>
+          </div>
+
+          <aside class="editor-brief">
+            <span class="news-chip">Publishing flow</span>
+            <ul class="editor-brief__list">
+              <li>Your title, category, and author appear in the latest edition.</li>
+              <li>The post is published directly to SQLite when you submit.</li>
+              <li>Readers can discover it immediately from the homepage.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="editor-sheet news-reveal" style="--news-delay: 140ms;">
+          <div class="editor-sheet__header">
+            <div>
+              <span class="news-kicker">New Draft</span>
+              <h2 class="editor-sheet__title">Build a fresh article with editorial clarity.</h2>
+            </div>
+            <span class="editor-mode-chip">New Draft</span>
+          </div>
+
+          <form action="/posts" method="POST" class="editor-form">
+            <div class="editor-grid">
+              <label class="editor-field editor-field--full">
+                <span class="editor-field__label">Headline</span>
+                <span class="editor-field__note">Make the reader understand the value of the piece immediately.</span>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="The quiet discipline of writing every day"
+                  autocomplete="off"
+                  required
+                />
+              </label>
+
+              <label class="editor-field">
+                <span class="editor-field__label">Author</span>
+                <span class="editor-field__note">Who is publishing this article?</span>
+                <input
+                  type="text"
+                  name="author"
+                  placeholder="Your name"
+                  autocomplete="name"
+                  required
+                />
+              </label>
+
+              <label class="editor-field">
+                <span class="editor-field__label">Category</span>
+                <span class="editor-field__note">Use a desk like Essays, Commentary, Culture, or Ideas.</span>
+                <input
+                  type="text"
+                  name="category"
+                  placeholder="Essays"
+                  autocomplete="off"
+                  required
+                />
+              </label>
+
+              <label class="editor-field editor-field--full">
+                <span class="editor-field__label">Story</span>
+                <span class="editor-field__note">Write the full article here. Keep it clear, calm, and readable.</span>
+                <textarea
+                  name="content"
+                  rows="14"
+                  placeholder="Start with a strong opening sentence, then develop the argument or story with clarity..."
+                  required
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="editor-form__footer">
+              <p>
+                Publishing sends this post straight into the latest stories section of the current
+                edition and keeps the existing backend flow exactly as it is.
+              </p>
+
+              <div class="editor-form__actions">
+                <a href="/" class="btn btn--ghost">Cancel</a>
+                <button type="submit" class="btn btn--primary">Publish Post</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

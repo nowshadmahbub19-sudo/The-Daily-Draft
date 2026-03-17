@@ -1,0 +1,329 @@
+<%
+  const formatDate = (value) => {
+    if (!value) return "New edition";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const editionDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const featuredPost = posts[0] || null;
+  const editorPicks = posts.slice(0, 3);
+  const desks = [
+    {
+      title: "Essays",
+      description: "Long-form reflections on work, culture, memory, and the shape of modern life.",
+      sample: posts.find((post) => (post.category || "").toLowerCase().includes("essay")),
+    },
+    {
+      title: "Commentary",
+      description: "Clear perspectives and sharp observations on the ideas shaping the current moment.",
+      sample: posts.find((post) => (post.category || "").toLowerCase().includes("comment")),
+    },
+    {
+      title: "Culture",
+      description: "Notes on books, media, art, and the stories that define a generation.",
+      sample: posts.find((post) => (post.category || "").toLowerCase().includes("culture")),
+    },
+    {
+      title: "Ideas",
+      description: "Arguments, questions, and thoughtful experiments that open new lines of thinking.",
+      sample: posts.find((post) => (post.category || "").toLowerCase().includes("idea")),
+    },
+  ];
+%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Daily Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="newspaper-home">
+    <header class="news-utility">
+      <div class="container news-utility__inner">
+        <span class="news-utility__label">Independent Editorial Publication</span>
+        <span class="news-utility__date"><%= editionDate %></span>
+      </div>
+    </header>
+
+    <div class="container">
+      <header class="news-masthead news-reveal">
+        <div class="news-masthead__row">
+          <a href="/" class="news-brand" aria-label="The Daily Draft home">
+            <span class="news-brand__name">The Daily Draft</span>
+            <span class="news-brand__deck">Essays, stories, and commentary with a clear path to publish your own.</span>
+          </a>
+
+          <nav class="news-nav" aria-label="Primary">
+            <a href="/" class="news-nav__link news-nav__link--active">Home</a>
+            <a href="#latest-stories" class="news-nav__link">Latest</a>
+            <a href="#editorial-desks" class="news-nav__link">Categories</a>
+            <a href="#about-publication" class="news-nav__link">About</a>
+            <a href="/posts/new" class="btn btn--primary">New Post</a>
+          </nav>
+        </div>
+
+        <div class="news-rule"></div>
+      </header>
+
+      <main class="news-main">
+        <section class="news-hero">
+          <div class="news-hero__copy news-reveal" style="--news-delay: 90ms;">
+            <span class="news-kicker">Independent Editorial Publication</span>
+            <h1 class="news-hero__headline">
+              A modern newspaper-style blog for essays, stories, and commentary.
+            </h1>
+            <p class="news-hero__support">
+              Read thoughtful writing, discover fresh perspectives, and publish your own
+              stories in a clean editorial space.
+            </p>
+
+            <div class="news-hero__actions">
+              <a href="#latest-stories" class="btn btn--primary">Read Latest</a>
+              <a href="/posts/new" class="btn btn--ghost">Write a Post</a>
+            </div>
+
+            <ul class="news-hero__promises" aria-label="Publication benefits">
+              <li>Essays, stories, and commentary in one clear editorial home</li>
+              <li>Front-page previews that make reading choices easy</li>
+              <li>A direct path to publish your own article</li>
+            </ul>
+          </div>
+
+          <aside class="front-page-preview news-reveal" style="--news-delay: 180ms;">
+            <span class="news-kicker">Front page story</span>
+
+            <% if (featuredPost) { %>
+              <div class="front-page-preview__meta">
+                <span><%= featuredPost.category || "General" %></span>
+                <span><%= formatDate(featuredPost.created_at) %></span>
+              </div>
+
+              <h2 class="front-page-preview__title"><%= featuredPost.title %></h2>
+              <p class="front-page-preview__excerpt"><%= featuredPost.content %></p>
+              <a href="#front-page-story" class="news-link">Read more below</a>
+            <% } else { %>
+              <h2 class="front-page-preview__title">Your first story can become the lead article.</h2>
+              <p class="front-page-preview__excerpt">
+                Publish an essay, story, or commentary piece and it will appear here as the
+                front-page introduction to the edition.
+              </p>
+              <a href="/posts/new" class="news-link">Write the first post</a>
+            <% } %>
+          </aside>
+        </section>
+
+        <section class="front-page-section news-reveal" style="--news-delay: 120ms;" id="front-page-story">
+          <div class="news-section__heading">
+            <div>
+              <span class="news-kicker">Featured Story</span>
+              <h2 class="news-section__title">The lead article that sets the tone for the edition.</h2>
+            </div>
+            <p class="news-section__deck">
+              The featured story gives first-time readers instant proof that this publication is
+              built for thoughtful reading, not filler content.
+            </p>
+          </div>
+
+          <div class="front-page-layout">
+            <article class="lead-story">
+              <% if (featuredPost) { %>
+                <div class="lead-story__meta">
+                  <span class="news-chip"><%= featuredPost.category || "General" %></span>
+                  <span class="lead-story__dateline"><%= formatDate(featuredPost.created_at) %></span>
+                </div>
+
+                <h3 class="lead-story__headline"><%= featuredPost.title %></h3>
+                <p class="lead-story__excerpt"><%= featuredPost.content %></p>
+
+                <div class="lead-story__footer">
+                  <div class="lead-story__byline">
+                    <span class="lead-story__byline-label">By</span>
+                    <span class="lead-story__byline-name"><%= featuredPost.author || "Staff Writer" %></span>
+                  </div>
+                  <a href="#story-<%= featuredPost.id %>" class="news-link">Read more in Latest Stories</a>
+                </div>
+              <% } else { %>
+                <div class="empty-front-page">
+                  <span class="news-chip">Open edition</span>
+                  <h3 class="lead-story__headline">No lead story yet.</h3>
+                  <p class="lead-story__excerpt">
+                    Publish a post and this section becomes the front page of your editorial blog.
+                  </p>
+                  <a href="/posts/new" class="btn btn--primary">Write the First Story</a>
+                </div>
+              <% } %>
+            </article>
+
+            <aside class="editorial-desks" id="editorial-desks">
+              <div class="editorial-desks__header">
+                <span class="news-kicker">Editorial Sections</span>
+                <h3 class="editorial-desks__title">Essays, commentary, culture, and ideas.</h3>
+              </div>
+
+              <div class="desk-grid">
+                <% desks.forEach((desk) => { %>
+                  <article class="desk-card">
+                    <span class="desk-card__title"><%= desk.title %></span>
+                    <p class="desk-card__text"><%= desk.description %></p>
+
+                    <% if (desk.sample) { %>
+                      <div class="desk-card__sample">
+                        <span class="desk-card__sample-label">From this desk</span>
+                        <span class="desk-card__sample-title"><%= desk.sample.title %></span>
+                      </div>
+                    <% } else { %>
+                      <span class="desk-card__placeholder">Ready for the next published piece</span>
+                    <% } %>
+                  </article>
+                <% }) %>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="news-section news-reveal" style="--news-delay: 150ms;">
+          <div class="news-section__heading">
+            <div>
+              <span class="news-kicker">Editor's Picks</span>
+              <h2 class="news-section__title">Three stories to start with.</h2>
+            </div>
+            <p class="news-section__deck">
+              These featured reads act like the top of a newspaper column: quick to scan, easy to
+              trust, and immediately relevant to the reader.
+            </p>
+          </div>
+
+          <% if (editorPicks.length > 0) { %>
+            <div class="picks-grid">
+              <% editorPicks.forEach((post, index) => { %>
+                <article class="pick-card" id="pick-<%= post.id %>">
+                  <div class="pick-card__meta">
+                    <span><%= post.category || "General" %></span>
+                    <span><%= formatDate(post.created_at) %></span>
+                  </div>
+                  <h3 class="pick-card__headline"><%= post.title %></h3>
+                  <p class="pick-card__excerpt"><%= post.content %></p>
+                  <a href="#story-<%= post.id %>" class="news-link">Read more below</a>
+                </article>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <div class="news-empty-note">
+              <p>No stories are published yet. Write the first article to populate the edition.</p>
+            </div>
+          <% } %>
+        </section>
+
+        <section class="news-section news-reveal" style="--news-delay: 180ms;" id="latest-stories">
+          <div class="news-section__heading">
+            <div>
+              <span class="news-kicker">Latest Stories</span>
+              <h2 class="news-section__title">Read the current edition and manage published posts.</h2>
+            </div>
+            <p class="news-section__deck">
+              Every published piece appears here with category, date, author, and the existing
+              edit and delete controls preserved from your working backend.
+            </p>
+          </div>
+
+          <% if (posts.length > 0) { %>
+            <div class="latest-grid">
+              <% posts.forEach((post, index) => { %>
+                <article class="story-sheet <%= index === 0 ? 'story-sheet--lead' : '' %>" id="story-<%= post.id %>">
+                  <div class="story-sheet__meta">
+                    <span class="news-chip"><%= post.category || "General" %></span>
+                    <span class="story-sheet__dateline"><%= formatDate(post.created_at) %></span>
+                  </div>
+
+                  <h3 class="story-sheet__headline"><%= post.title %></h3>
+                  <p class="story-sheet__excerpt"><%= post.content %></p>
+
+                  <div class="story-sheet__footer">
+                    <div class="story-sheet__byline">
+                      <span class="story-sheet__byline-label">By</span>
+                      <span class="story-sheet__byline-name"><%= post.author || "Staff Writer" %></span>
+                    </div>
+
+                    <div class="story-sheet__actions">
+                      <a href="/posts/<%= post.id %>/edit" class="news-action-link">Edit</a>
+                      <form
+                        action="/posts/<%= post.id %>/delete"
+                        method="POST"
+                        class="inline-form"
+                        onsubmit="return confirm('Delete this post?')"
+                      >
+                        <button type="submit" class="news-action-button">Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </article>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <div class="news-empty-note">
+              <p>No published stories yet. Click “Write a Post” to create the first article in the edition.</p>
+            </div>
+          <% } %>
+        </section>
+
+        <section class="news-section news-section--about news-reveal" style="--news-delay: 210ms;" id="about-publication">
+          <div class="about-publication">
+            <div>
+              <span class="news-kicker">About The Daily Draft</span>
+              <h2 class="news-section__title">A clear editorial home for readers and writers.</h2>
+            </div>
+            <p class="about-publication__text">
+              The Daily Draft is a modern editorial blog designed to make its purpose obvious at a
+              glance: read essays, stories, and commentary, or publish your own work in the same
+              structured, newspaper-inspired environment.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="news-footer">
+      <div class="container news-footer__grid">
+        <div>
+          <span class="news-footer__brand">The Daily Draft</span>
+          <p class="news-footer__text">
+            Independent editorial publication for essays, stories, commentary, and fresh
+            perspectives.
+          </p>
+        </div>
+
+        <nav class="news-footer__nav" aria-label="Footer">
+          <a href="/">Home</a>
+          <a href="#latest-stories">Latest</a>
+          <a href="#editorial-desks">Categories</a>
+          <a href="#about-publication">About</a>
+          <a href="/posts/new">New Post</a>
+        </nav>
+
+        <div class="news-footer__meta">
+          <span>Digital newspaper aesthetic</span>
+          <span>&copy; 2026 The Daily Draft</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
