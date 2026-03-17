@@ -4,16 +4,14 @@
   "description": "",
   "main": "app.js",
   "type": "module",
-  "start":"node app.js",
-  "dev":"nodemon app.js",
-
   "scripts": {
-    "start":"node app.js",
-  "dev":"nodemon app.js",
-
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
     "ejs": "^5.0.1",
